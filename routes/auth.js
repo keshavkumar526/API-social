@@ -28,10 +28,11 @@ router.post("/login", async (req, res) => {
       user.password
     );
     !validPassword && res.status(400).send("Wrong Password");
-      user.password = null
+    user.password = null;
     res.status(200).send(user);
   } catch (err) {
     console.log(err);
+    return res.status(401).send("try again");
   }
 });
 
