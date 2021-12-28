@@ -50,6 +50,28 @@ app.post("/api/upload", upload.single("file"), (req, res) => {
   }
 });
 
+const profilePicStorage = multer.diskStorage({
+  destination: (req, profilePic, cb) => {
+    cb(null, "public/images/post");
+  },
+  filename: (req, profilePic, cb) => {
+    cb(null, profilePic.originalname);
+  },
+});
+
+const profilePicUpload = multer({ storage: profilePicStorage });
+try {
+  app.post(
+    "/api/uploadProfilePic",
+    profilePicUpload.single("profilePic"),
+    (req, res) => {
+      res.status(200).json("File Uploaded Successfully");
+    }
+  );
+} catch (err) {
+  console.log(err);
+}
+
 app.get("/", (req, res) => {
   res.send("Hello World");
 });

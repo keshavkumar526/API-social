@@ -111,4 +111,14 @@ router.put("/:id/unfollow", async (req, res) => {
   }
 });
 
+router.put("/changeProfilePic/:id", async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    await user.updateOne({ $set: { profilePicture: req.body.pfName } });
+    res.status(200).json("user has been updated");
+  } catch (err) {
+    console.log(err);
+  }
+});
+
 module.exports = router;
