@@ -1,10 +1,12 @@
 const router = require("express").Router();
 const Post = require("../models/Post");
 const User = require("../models/User");
-const Comment = require("../models/Comments")
+const Comment = require("../models/Comments");
+const { cloudinary } = require("../utils/cloudnary");
 
 router.post("/", async (req, res) => {
   const newPost = new Post(req.body);
+  console.log(req.body)
   try {
     const savedPost = await newPost.save();
     res.status(200).json(savedPost);
@@ -13,6 +15,20 @@ router.post("/", async (req, res) => {
     res.status(500).json(err);
   }
 });
+
+// router.post("/upload", async (req, res) => {
+//   try {
+//     const fileStr = req.body.data;
+//     const uploadResponse = await cloudinary.uploader.upload(fileStr, {
+//       upload_preset: "myFolder",
+//     });
+//     // console.log(uploadResponse);
+//     res.send(uploadResponse);
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).json({ err: "Something went wrong" });
+//   }
+// });
 
 router.put("/:id", async (req, res) => {
   try {
